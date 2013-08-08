@@ -1,11 +1,12 @@
 from distutils.core import setup
 
 setup(
-    name='PythonData',
+    name='MathLib',
     version='0.1.0',
     author='Charles J. Lai',
     author_email='cjl223@cornell.edu',
-    packages=['pythondata', 'pythondata.test'],
+    packages=['mathlib', 'mathlib.test', 'mathlib.core', 'mathlib.lib', 
+    'mathlib.linalg', 'mathlib.numbers', 'mathlib.stats'],
     scripts=[],
     url='',
     license='LICENSE.txt',
