@@ -20,15 +20,18 @@ operators defined within the Polynomial class.
 
 Contents
 --------
-Polynomial   - A one-dimensional polynomial class with various methods
-roots()      - Find roots of polynomial given coefficients
-integral()   - Integrate polynomial
-derivative() - Differentiate polynomial
-evaluate()   - Evaluate polynomial at given argument
-sigma() 	 - Cummulative sum of a polynomial
-geom() 		 - Cummulative product of a polynomial
-"""
+* Polynomial   - A one-dimensional polynomial class with various methods
+* roots()      - Find roots of polynomial given coefficients
+* integral()   - Integrate polynomial
+* derivative() - Differentiate polynomial
+* evaluate()   - Evaluate polynomial at given argument
+* sigma() 	   - Cummulative sum of a polynomial
+* geom() 	   - Cummulative product of a polynomial
 
+"""
+#======================
+# 	Polynomial Class
+#======================
 class Polynomial(object):
 	"""
 	Instances represent a one-dimensional polynomial. 

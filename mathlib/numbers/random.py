@@ -15,19 +15,17 @@ other fields that may require large sequences of random numbers.
 
 Contents
 --------
-
 Pseudorandom Generators (Uniformly Distributed):
-*LCG
+* LCG
 
 Distributions:
-*Normal/Gaussian
-*Poisson
-"""
+* Normal/Gaussian
+* Poisson
 
+"""
 #=============================
 #	Pseudorandom Generators
 #=============================
-
 def LCG(limits=[0,1], size=10):
 	"""
 	Returns: A series of pseudorandom numbers of range *limits* and size

@@ -5,19 +5,18 @@
 import mathlib.core.unimath
 
 """
-==========================
-Probability (And Counting)
-===========================
+===========
+probability
+===========
 [INSERT DECRIPTION]
 
---------
 Contents
 --------
+Counting Functions:
+* comb(n, r)
+* perm(n, r)
 
-Counting:
----------
-*combination(a, b)
-*permute(a, b)
+Probability:
 
 """
 
