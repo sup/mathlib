@@ -15,38 +15,59 @@ were decided to be included for completeness/thoroughness sake.
 Contents
 --------
 
-Functions:
-----------
+Basic Functions:
+----------------
 *add(a, b)
 *subtract(a, b)
 *multiply(a, b)
 *divide(a, b)
-*conjugate
 *factorial(n)
-
-Calculus
---------
-
 """
 
 #===============
 #	Functions
 #===============
 def add(a, b):
-	pass
+	"""
+	"""
+	#Attempt to use overloaded operators
+	try:
+		return a + b
+	#If this fails, go case by case until it works.
+	except Exception:
+		pass
+
+def sub(a, b):
+	"""
+	"""
+	#Attempt to use overloaded operators
+	try:
+		return a - b
+	#If this fails, go case by case until it works.
+	except Exception:
+		pass
 
 
-def subtract(a, b):
-	pass
+def div(a, b):
+	"""
+	"""
+	#Attempt to use overloaded operators
+	try:
+		return a / b
+	#If this fails, go case by case until it works.
+	except Exception:
+		pass
 
 
-def divide(a, b):
-	pass
-
-
-def multiply(a, b):
-	pass
-
+def mult(a, b):
+	"""
+	"""
+	#Attempt to use overloaded operators
+	try:
+		return a * b
+	#If this fails, go case by case until it works.
+	except Exception:
+		pass
 
 def factorial(n):
 	"""

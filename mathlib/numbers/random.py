@@ -43,14 +43,17 @@ def LCG(limits=[0,1], size=10):
 							*A multiplier -> a
 							*An increment -> c
 							*A random seed -> Z
-	
+
+	Our values were chosen trough careful, scientific, face-to-keyboard
+	smashing. 
+
 	Then, given a random seed Z, we generate the first pseudorandom number.
 
-							X0 = (aZ + c) mod m
+							X_0 = (aZ + c) mod m
 
 	Afterwords, the remaining numbers are generated recursively such that:
 
-							xn+1 = (axn + c) mod m
+							X_n+1 = (aX_n + c) mod m
 
 	This is good enough for most applications, but for serious cryptographic
 	applications by companies and professionals, more complex random number
@@ -59,8 +62,8 @@ def LCG(limits=[0,1], size=10):
 	#Initialize: empty list, seed, modulus, multiplier, and increment.
 	series = []
 	seed = time.clock()
-	modulus = 12387409
-	multiplier = 11234345
+	modulus = 12387409          
+	multiplier = 11234345 
 	increment = 7569
 	#Generate the first pseudorandom number and add it to the empty list.
 	next = (seed * multiplier + increment) % modulus
