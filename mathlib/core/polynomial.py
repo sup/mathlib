@@ -1,13 +1,13 @@
-#polynomials.py
+#polynomial.py
 #Charles J. Lai
 #August 18, 2013
 
 import unimath
 
 """
-===========
-polynomials
-===========
+==========
+polynomial
+==========
 This module contains a wrapper class that represents a polynomial and
 functions that can be used to analyze/evaluate a polynomial class. These
 functions are in the global namespace and are not defined within the
@@ -25,7 +25,7 @@ Contents
 * integral()   - Integrate polynomial
 * derivative() - Differentiate polynomial
 * evaluate()   - Evaluate polynomial at given argument
-* sigma() 	   - Cummulative sum of a polynomial
+* sum() 	   - Cummulative sum of a polynomial
 * geom() 	   - Cummulative product of a polynomial
 
 """
@@ -99,7 +99,7 @@ class Polynomial(object):
 				poly_string = " + " + str(self._formula[var]) + poly_string
 			#Case 2: For 1st order variable, omit the chevron and 1
 			elif var == 1:
-				poly_string = str(self._formula[var]) + "x" + poly_string		
+				poly_string = " + " + str(self._formula[var]) + "x" + poly_string		
 			#Case 2: For the last value, omit the leading plus sign
 			elif var == length - 1:
 				poly_string = str(self._formula[var]) + "x" + "^" + str(var) + poly_string
@@ -121,15 +121,83 @@ class Polynomial(object):
 		return len(self._formula)
 
 	def __add__(self, other):
-		pass
+		"""
+		Returns: The sum of two polynomials.
+
+		===========
+		Description
+		===========
+		
+		"""
+		#Set the lists of each polynomial to a and b
+		a = self._formula
+		b = other._formula
+		c = []
+		#Set the shorter one to "a"
+		if a > b:
+			a, b = b, a
+		#Iteratively add each value of a+b to c and add the rest of b after
+		for index in range(0, len(a)):
+			c = c + [(a[index] + b[index])]
+		if (index + 1) <= len(b):
+			c = c + b[index+1:]
+		#Return the polynomial form of the c list
+		return Polynomial(c)
+
 
 	def __sub__(self, other):
-		pass
+		"""
+		Returns: The differnce of two polynomials.
+
+		===========
+		Description
+		===========
+
+		"""
+		#Set the lists of each polynomial to a and b
+		a = self._formula
+		b = other._formula
+		c = []
+		if a > b:
+			#Iterate and add a-b to c.
+			for index in range(0, len(b)):
+				c = c + [(a[index] - b[index])]
+			#Add the rest of a to c
+			c = c + a[index + 1:]
+			return Polynomial(c)
+		else:
+			#Iterate and add a-b to c.
+			for index in range(0, len(a)):
+				c = c + [(a[index] - b[index])]
+			if (index + 1) <= len(b):
+				#Subtract the rest of b to c
+				neg_list = unimath.mullist(b[index + 1:], -1)
+				c = c + neg_list
+			#Return the polynomial form of the c list
+			return Polynomial(c)
+
 
 	def __mul__(self, other):
+		"""
+		Returns: The product of two polynomials.
+
+		===========
+		Description
+		===========
+
+		"""
 		pass
 
+
 	def __div__(self, other):
+		"""
+		Returns: The quotient of two polynomials.
+
+		===========
+		Description
+		===========
+		
+		"""
 		pass
 
 
@@ -202,7 +270,7 @@ def evaluate(poly, value_of_x):
 	return sum
 
 
-def sigma(base=0, limit=10, increment=1, poly=[]):
+def sum(base=0, limit=10, increment=1, poly=[]):
 	"""
 	Returns:
 
@@ -211,7 +279,9 @@ def sigma(base=0, limit=10, increment=1, poly=[]):
 	===========
 	"""
 	total_sum = 0
+	#For all values i, evaluate the polynomial
 	while i <= limit:
+		#Add to the cummulative sums
 		total_sum = total_sum + evaluate(poly, i)
 		i += increment
 	return total_sum
@@ -226,7 +296,9 @@ def geom(base=0, limit=5, increment=1, poly=[]):
 	===========
 	"""
 	total_product = 0
+	#For all values i, evaluate the polynomial
 	while i <= limit:
+		#Multiply to the cummulative product
 		total_product = total_product * evaluate(poly, i)
 		i += increment
 	return total_product

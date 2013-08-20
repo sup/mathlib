@@ -5,9 +5,9 @@
 import time
 
 """
-======
-random
-======
+=======
+randnum
+=======
 This module contains a variety of methods/functions for generating sequences
 of random numbers with various distributions. This can be used for a variety 
 of different purposes with statistics, cryptography, finance, and
@@ -26,7 +26,7 @@ Distributions:
 #=============================
 #	Pseudorandom Generators
 #=============================
-def LCG(limits=[0,1], size=10):
+def LCG(limits=[0,1], size=1):
 	"""
 	Returns: A series of pseudorandom numbers of range *limits* and size
 	*size*. Default: 10 numbers with range between 0 and 1.
@@ -74,6 +74,8 @@ def LCG(limits=[0,1], size=10):
 	limit_divisor = modulus/limits[1]
 	for i in range(0, len(series)):
 		series[i] = series[i]/limit_divisor
+	if size == 1:
+		return series[0]
 	return series
 
 
