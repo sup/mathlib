@@ -17,6 +17,9 @@ Contents
 --------
 Pseudorandom Generators (Uniformly Distributed):
 * LCG
+* Park-Miller
+* Mersenne Twister
+* ICG
 
 Distributions:
 * Normal/Gaussian
@@ -34,6 +37,7 @@ def LCG(limits=[0,1], size=1):
 	===========
 	Description
 	===========
+	Linear Congruential Generator
 	A standard technique for generating pseudorandom numbers is known as
 	he linear congruential generator (LCG). Choose:
 
@@ -77,6 +81,40 @@ def LCG(limits=[0,1], size=1):
 	if size == 1:
 		return series[0]
 	return series
+
+
+def park_miller(limits=[0,1], size=1):
+	"""
+	Returns:
+
+	===========
+	Description
+	===========
+	"""
+	pass
+
+
+def mersenne_twister(limits=[0,1], size=1):
+	"""
+	Returns:
+
+	===========
+	Description
+	===========
+	"""
+	pass
+
+
+def ICG(limits=[0,1], size):
+	"""
+	Returns:
+
+	===========
+	Description
+	===========
+	Generalized Inversive Congruential PRNG
+	"""
+	pass
 
 
 #===================
