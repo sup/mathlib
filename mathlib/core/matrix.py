@@ -30,36 +30,169 @@ class Matrix(object):
 	"""
 	#Properties
 	_matrix = None
+	_row_length = 0
+	_col_length = 0
 	_number_of_rows = 0
 	_number_of_columns = 0
 	_is_square = False
 	_is_li = False
 
+	@property 
+	def matrix(self):
+		return self._matrix
+
+	@matrix.setter
+	def matrix(self, pre_matrix):
+		assert type(pre_matrix) == list, "Argument given is not a 2D-List"
+		assert _has_same_length_rows(pre_matrix) == True, "Argument has different length rows"
+		self._matrix = pre_matrix
+
+	@property #immutable
+	def row_length(self):
+		return self._row_length
+
+	@property #immutable
+	def col_length(self):
+		return self._col_length
+
+	@property #immutable
+	def number_of_rows(self):
+		return self._number_of_rows
+
+	@property #immutable
+	def number_of_columns(self):
+		return self._number_of_columns
+
+	@property #immutable
+	def is_square(self):
+		return self._is_square
+
+	@property #immutable
+	def is_li(self):
+		return self._is_li
+
 	#Methods
 	def __init__(self, pre_matrix):
+		"""
+		"""
 		#Test if the "pre_matrix" argument is valid
 		assert type(pre_matrix) == list, "Argument given is not a 2D-List"
 		assert _has_same_length_rows(pre_matrix) == True, "Argument has different length rows"
-		#Set the properties
+		#Set the matrix
 		self._matrix = pre_matrix
+		#Set row/col length/numbers
 		self._number_of_rows = len(self._matrix)
-		self._number_of_columns = len(self._matrix[0])
+		elf._number_of_columns = len(self._matrix[0])
+		self._col_length = self._number_of_rows
+		self._row_length = self._number_of_columns
+		#Set whether the matrix is a square matrix
 		if self._number_of_rows == self._number_of_columns:
 			self._is_square == True
 
 	def __str__(self):
+		"""
+		"""
 		pass
 
+	def __add__(self):
+		"""
+		"""
+		pass
 
+	def __sub__(self):
+		"""
+		"""
+		pass
+
+	def __mul__(self):
+		"""
+		"""
+		pass
+
+	def __div__(self):
+		"""
+		"""
+		pass
+#======================
+#	Matrix Functions
+#======================
+
+def add_row(matrix, row):
+	"""
+	Procedure: Adds a given row to a specified matrix
+
+	Preconditions: The row must be have the same length as other rows in
+	the matrix.
+	"""
+	assert len(row) == matrix.row_length, "The row has an invalid length"
+	pass
+
+
+def add_col(matrix, col):
+	"""
+	"""
+	pass
+
+
+def sub_row(matrix, row_number):
+	"""
+	"""
+	pass
+
+
+def sub_col(matrix, col_number):
+	"""
+	"""
+	pass
+
+
+def ref(matrix):
+	"""
+	"""
+	pass
+
+
+def rref(matrix):
+	"""
+	"""
+	pass
+
+
+def trans(matrix):
+	"""
+	"""
+	pass
+
+
+def det(matrix):
+	"""
+	"""
+	pass
+
+
+def diag(matrix):
+	"""
+	"""
+	pass
+
+
+def eig(matrix):
+	"""
+	"""
+	pass
 #======================
 #	Property Testers
 #======================
 
 def is_square(matrix):
+	"""
+	"""
 	pass
 
 
 def is_li(matrix):
+	"""
+	"""
 	pass
 
 
