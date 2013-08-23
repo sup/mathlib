@@ -15,13 +15,13 @@ MathLib/numbers package.
 """
 
 def ceasar_cipher(message, key):
-	pass
+    pass
 
 def RSA_encrpyt(public_key, private_key, message):
-	pass
+    pass
 
 def RSA_decrypt(public_key, private_key, cipher):
-	pass
+    pass
 
 def phi(number):
-	pass
+    pass
