@@ -25,8 +25,8 @@ Contents
 * integral()   - Integrate polynomial
 * derivative() - Differentiate polynomial
 * evaluate()   - Evaluate polynomial at given argument
-* sum()        - Cummulative sum of a polynomial
-* geom()       - Cummulative product of a polynomial
+* polysum()    - Cummulative sum of a polynomial
+* polyprod()   - Cummulative product of a polynomial
 
 """
 #======================
@@ -270,7 +270,7 @@ def evaluate(poly, value_of_x):
     return sum
 
 
-def sum(base=0, limit=10, increment=1, poly=[]):
+def polysum(base=0, limit=10, increment=1, poly=[]):
     """
     Returns:
 
@@ -287,7 +287,7 @@ def sum(base=0, limit=10, increment=1, poly=[]):
     return total_sum
 
 
-def geom(base=0, limit=5, increment=1, poly=[]):
+def polyprod(base=0, limit=5, increment=1, poly=[]):
     """
     Returns:
 

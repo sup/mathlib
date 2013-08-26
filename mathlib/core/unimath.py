@@ -17,10 +17,12 @@ Contents
 
 List Operations
 ---------------
+* sum(list, value)
 * inclist(list, value)
 * sublist(list, value)
 * mullist(list, value)
 * divlist(list, value)
+* zeros(m, n)
 
 Basic Math:
 -----------
@@ -38,6 +40,17 @@ Markup Languages:
 #=====================
 #   List Operations
 #=====================
+
+def listsum(list):
+    """
+    Returns: The cummulative sum of values in a list.
+
+    Precondition: values in the lists are numbers.
+    """
+    sum = 0
+    for element in list:
+        sum = sum + element
+    return sum
 
 def inclist(list, value):
     """
@@ -103,6 +116,19 @@ def divlist(list, value):
     return new_list
 
 
+def zeros(m, n):
+    """
+    Returns: A list of zeroes with dimensions m x n
+    """
+    matrix = [[0] * n]
+    counter = 0
+    #Add the rest of the rows of zeros
+    while counter < m - 1:
+        matrix = matrix + [[0]*n]
+        counter += 1
+    return matrix
+
+
 #================
 #   Basic Math
 #================
@@ -118,7 +144,6 @@ def add(a, b):
         if type(a) == Polynomial and type(b) == Polynomial:
             pass
             
-
 
 def sub(a, b):
     """
@@ -153,8 +178,18 @@ def mult(a, b):
         return a * b
     #If this fails, go case by case until it works.
     except Exception:
-        pass
-
+        #LARGE SWITCH-CASE SYSTEM:
+        #Case: a AND b are LIST types. Multiply respective elements
+        if type(a) == list and type(b) == list:
+            try:
+                temp_list = []
+                for element_a in a:
+                    index_b = 0
+                    temp_list = temp_list + [element_a * b[index_b]]
+                    index_b += 1
+                return temp_list
+            except Exception:
+                print "These lists are not the same size."
 
 def factorial(n):
     """

@@ -115,28 +115,88 @@ class Matrix(object):
         Precondition: raw_matrix is a valid matrix input according to the
         description in the meta documentation.
         """
-        #Set and check the matrix
+        #Case 1: raw_matrix is a string -> Matlab style
         self._parse(raw_matrix)
         self._check()
 
     #Built-In Methods/Operator Overloading
-    def __add__(self):
+    def __add__(self, other):
         """
+        Returns: The sum of two matrices 
+        OR
+        Procedure: Scalar addition of self.
+
+        Precondition: The two matrices must be the same size.
         """
+        #Enforce the preconditions
+        assert self._m == other.m, "The two matrices differ in number of rows"
+        assert self._n == other.n, "The two matrices differ in number of cols"
+        #Add the two matrices
+        #Add a scalar to every value in the matrix
+        if type(other) == int or type(other) == float:
+            for x in range(0, self._m):
+                for y in range(0, self._n):
+                    self._matrix[x][y] = self._matrix[x][y] + other
         pass
 
-    def __sub__(self):
+    def __sub__(self, other):
         """
+        Returns: The difference of two matrices
+        OR
+        Procedure: Scalar subtraction of self.
+
+        Precondition: The two matrices must be the same size.
         """
+        #Enforce the preconditions
+        assert self._m == other.m, "The two matrices differ in number of rows"
+        assert self._n == other.n, "The two matrices differ in number of cols"
+        #Subtract the two matrices
+        #Subtract the matrix by a scalar
         pass
 
-    def __mul__(self):
+
+    def __mul__(self, other):
         """
+        Returns: The product of two matrices such that [self] * [other]
+        OR
+        Procedure: Scalar multiplication of self by other.
+
+        Precondition: self.n == other.m
+
+        ===========
+        Description
+        ===========
+        Matrix multiplication is more than simple addition where cooresponding
+        values in the first matrix are added to the second matrix.
         """
+        #Enforce the preconditions
+        assert self._n == other.m, "The dimensions of the matrices are invalid."
+        #Create the return matrix
+        temp_list = unimath.zeros(self._m, other.n)
+        product_matrix = Matrix(temp_list)
+        #Multiply the two matrices
+        row_counter = 1
+        col_counter = 1
+        while col_counter <= other._n:
+            while row_counter <= self._m:
+                #Multiply the all rows by the column and get the product
+                temp_row = self.get_row(row_counter)
+                temp_col = other.get_col(col_counter)
+                pre_sum = unimath.mult(temp_row, temp_col)
+                final_sum = unimath.listsum(pre_sum)
+                #Set the product to the correct space in the product matrix
+                product_matrix.set(row_counter, col_counter, final_sum)
+                row_counter += 1
+            #Reset the row counter and continue with the mext column
+            row_counter = 1
+            col_counter += 1
+        return product_matrix
+        #Multiply the matrix by a scalar
         pass
 
-    def __div__(self):
+    def __div__(self, other):
         """
+        Procedure: Scalar division of self.
         """
         pass
 
@@ -173,6 +233,26 @@ class Matrix(object):
         #Check if the value specified is a string or an actual list.
         assert type(value) == float or type(value) == int
         self._matrix[x - 1][y - 1] = value
+
+    def get_row(self, row_number):
+        """
+        Returns: The specified row in matrix self. The row is a python list.
+        """
+        assert row_number <= self._m and row_number > 0, "This is not a valid row number"
+        return self._matrix[row_number - 1]
+
+    def get_col(self, col_number):
+        """
+        Returns: The specified col in matrix self. The col is a python list.
+        """
+        assert col_number <= self._n and col_number > 0, "This is not a valid col number"
+        column = []
+        row_counter = 0
+        while row_counter < self._m:
+            column = column + [self._matrix[row_counter][col_number - 1]]
+            row_counter += 1
+        return column
+
 
     def add_row(self, row):
         """
@@ -232,24 +312,33 @@ class Matrix(object):
         Precondition: raw_matrix is a valid input according to the description
         in the meta documentation at the top of the document.
         """
-        #Some assertions statements to QC the raw_matrix input
-        assert type(raw_matrix) == str, "The matrix given is not a string"
-        assert raw_matrix[0] != "[", "Use Matlab matrix notation without braces"
-        #Initialize default values
-        self._m = -1
-        self._n = -1
-        #Split the matrix up into rows of strings and set m to len(self._matrix
-        self._matrix = raw_matrix.split(';')
-        self._m = len(self._matrix)
-        #Continue parsing the input, make rows into lists of numbers
-        for x in range(0, self._m):
-            self._matrix[x] = self.matrix[x].split(",")
-            self._matrix[x] = list(map(float, self.matrix[x]))
-        #Set n to the number of elements in each row
-        self._n = len(self._matrix[0])
-        #Set whether the matrix is a square matrix
-        if self._m == self._n:
-            self._is_square == True
+        #Case 1: raw_matrix is a string
+        if type(raw_matrix) == str:
+            #Some assertions statements to QC the raw_matrix input
+            assert type(raw_matrix) == str, "The matrix given is not a string"
+            assert raw_matrix[0] != "[", "Use Matlab matrix notation without braces"
+            #Initialize default values
+            self._m = -1
+            self._n = -1
+            #Split the matrix up into rows of strings and set m to len(self._matrix
+            self._matrix = raw_matrix.split(';')
+            self._m = len(self._matrix)
+            #Continue parsing the input, make rows into lists of numbers
+            for x in range(0, self._m):
+                self._matrix[x] = self.matrix[x].split(",")
+                self._matrix[x] = list(map(float, self.matrix[x]))
+            #Set n to the number of elements in each row
+            self._n = len(self._matrix[0])
+            #Set whether the matrix is a square matrix
+            if self._m == self._n:
+                self._is_square == True
+        #Case 2: raw_matrix is a valid 2D list in matrix form:
+        elif type(raw_matrix) == list:
+            self._matrix = raw_matrix
+            self._m = len(self._matrix)
+            self._n = len(self._matrix[0])
+            if self._m == self._n:
+                self._is_square == True
 
     def _check(self):
         """
@@ -264,10 +353,17 @@ class Matrix(object):
 #======================
 #   Matrix Functions
 #======================
-def fliplr(array):
+def fliplr(list):
     """
+    Returns: A revered version of a given sequence.
     """
-    pass
+    #Case 1: list is a simple list
+    if type(list) == list:
+        flipped_list = []
+        #For each element in list, add to the front of flipped_list
+        for element in list:
+            flipped_list = [element] + flipped_list
+        return flipped_list
 
 
 def ref(matrix):
@@ -300,6 +396,12 @@ def diag(matrix):
     pass
 
 
+def sym(matrix):
+    """
+    """
+    pass
+
+
 def eig(matrix):
     """
     """
@@ -319,3 +421,4 @@ def is_li(matrix):
     """
     pass
 
+if __name__ == '__main__':
