@@ -15,15 +15,6 @@ were decided to be included for completeness/thoroughness sake.
 Contents
 --------
 
-List Operations
----------------
-* sum(list, value)
-* inclist(list, value)
-* sublist(list, value)
-* mullist(list, value)
-* divlist(list, value)
-* zeros(m, n)
-
 Basic Math:
 -----------
 * add(a, b)
@@ -32,15 +23,101 @@ Basic Math:
 * divide(a, b)
 * factorial(n)
 
+List Operations
+---------------
+* fliplr(list)
+* listsum(list, value)
+* inclist(list, value)
+* sublist(list, value)
+* mullist(list, value)
+* divlist(list, value)
+* zeros(m, n)
+
 Markup Languages:
 -----------------
 * latex() - Returns the LaTeX code for a matrix or polynomial object.
 
 """
-#=====================
-#   List Operations
-#=====================
 
+#================
+#   Basic Math
+#================
+def add(a, b):
+    """
+    Return: The sum of two items a and b.
+    """
+    #Attempt to use overloaded operators
+    try:
+        return a + b
+    #If this fails, go case by case until it works.
+    except Exception:
+        if type(a) == Polynomial and type(b) == Polynomial:
+            pass
+            
+
+def sub(a, b):
+    """
+    Return: The difference of two items a and b
+    """
+    #Attempt to use overloaded operators
+    try:
+        return a - b
+    #If this fails, go case by case until it works.
+    except Exception:
+        pass
+
+
+def div(a, b):
+    """
+    Returns: The quotient of two items a and b.
+    """
+    #Attempt to use overloaded operators
+    try:
+        return a / b
+    #If this fails, go case by case until it works.
+    except Exception:
+        pass
+
+
+def mult(a, b):
+    """
+    Returns: The product of two items a and b.
+    """
+    #Attempt to use overloaded operators
+    try:
+        return a * b
+    #If this fails, go case by case until it works.
+    except Exception:
+        #LARGE SWITCH-CASE SYSTEM:
+        #Case: a AND b are LIST types. Multiply respective elements
+        if type(a) == list and type(b) == list:
+            try:
+                temp_list = []
+                for element_a in a:
+                    index_b = 0
+                    temp_list = temp_list + [element_a * b[index_b]]
+                    index_b += 1
+                return temp_list
+            except Exception:
+                print "These lists are not the same size."
+
+def factorial(n):
+    """
+    Computes the factorial of an integer n. Not optimized with memoization.
+    """
+    if n == 0:
+        return 1
+    else:
+        return n*factorial(n-1)
+
+
+def GCD(a, b):
+    pass
+
+
+#=========================
+#   Sequence Operations
+#=========================
 def listsum(list):
     """
     Returns: The cummulative sum of values in a list.
@@ -129,85 +206,22 @@ def zeros(m, n):
     return matrix
 
 
-#================
-#   Basic Math
-#================
-def add(a, b):
+def fliplr(list):
     """
-    Return: The sum of two items a and b.
+    Returns: A reversed version of a given sequence.
     """
-    #Attempt to use overloaded operators
-    try:
-        return a + b
-    #If this fails, go case by case until it works.
-    except Exception:
-        if type(a) == Polynomial and type(b) == Polynomial:
-            pass
-            
+    #Case 1: list is a simple list
+    if type(list) == list:
+        flipped_list = []
+        #For each element in list, add to the front of flipped_list
+        for element in list:
+            flipped_list = [element] + flipped_list
+        return flipped_list
 
-def sub(a, b):
-    """
-    Return: The difference of two items a and b
-    """
-    #Attempt to use overloaded operators
-    try:
-        return a - b
-    #If this fails, go case by case until it works.
-    except Exception:
-        pass
-
-
-def div(a, b):
-    """
-    Returns: The quotient of two items a and b.
-    """
-    #Attempt to use overloaded operators
-    try:
-        return a / b
-    #If this fails, go case by case until it works.
-    except Exception:
-        pass
-
-
-def mult(a, b):
-    """
-    Returns: The product of two items a and b.
-    """
-    #Attempt to use overloaded operators
-    try:
-        return a * b
-    #If this fails, go case by case until it works.
-    except Exception:
-        #LARGE SWITCH-CASE SYSTEM:
-        #Case: a AND b are LIST types. Multiply respective elements
-        if type(a) == list and type(b) == list:
-            try:
-                temp_list = []
-                for element_a in a:
-                    index_b = 0
-                    temp_list = temp_list + [element_a * b[index_b]]
-                    index_b += 1
-                return temp_list
-            except Exception:
-                print "These lists are not the same size."
-
-def factorial(n):
-    """
-    Computes the factorial of an integer n. Not optimized with memoization.
-    """
-    if n == 0:
-        return 1
-    else:
-        return n*factorial(n-1)
-
-
-def GCD(a, b):
-    pass
 
 #======================
 #   Markup Languages
 #======================
-
 def latex(obj):
     """
     """

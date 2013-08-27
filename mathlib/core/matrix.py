@@ -350,22 +350,10 @@ class Matrix(object):
             assert len(self._matrix[r]) == self._n, "Invalid row lengths"
             assert type(self._matrix[r]) == list, "Some rows aren't lists"
 
+
 #======================
 #   Matrix Functions
 #======================
-def fliplr(list):
-    """
-    Returns: A revered version of a given sequence.
-    """
-    #Case 1: list is a simple list
-    if type(list) == list:
-        flipped_list = []
-        #For each element in list, add to the front of flipped_list
-        for element in list:
-            flipped_list = [element] + flipped_list
-        return flipped_list
-
-
 def ref(matrix):
     """
     """
