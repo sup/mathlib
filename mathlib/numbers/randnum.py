@@ -119,7 +119,7 @@ def lehmer(limits=[0,1], size=1):
                         n = 2^31 - 1 (Mersenne Prime M31)
                         a = 7^5 (Primitive root mod M31)
     
-    These parametes are now know as MINSTD and are used in this particular
+    These parameters are now know as MINSTD and are used in this particular
     python implementation of the Lehmer RNG.
     """
     #Initialize: empty list, seed, modulus, multiplier, and increment.

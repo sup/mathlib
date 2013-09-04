@@ -356,50 +356,72 @@ class Matrix(object):
 #======================
 def ref(matrix):
     """
+    Returns: The row echelon form of a given matrix.
     """
     pass
 
 
 def rref(matrix):
     """
+    Returns: The reduced row echelon form of a given matrix.
     """
     pass
-
 
 def trans(matrix):
     """
+    Returns: The transpose of a given matrix.
     """
-    pass
+    transpose = unimath.zeros(matrix.n, matrix.m)
+    transpose = Matrix(transpose)
+    col_count = 1
+    while col_count <= matrix.n:
+        col = matrix.get_col(col_count)
+        ele_count = 1
+        #Set each value in the column to cooresponding row values
+        for e in col:
+            transpose.set(col_count, ele_count, e)
+            ele_count += 1
+        #Repeat for the next column
+        col_count += 1
+    return transpose
 
 
 def det(matrix):
     """
+    Returns: The determinant of a given matrix.
     """
     pass
 
 
 def diag(matrix):
     """
+    Returns: The diagonalized form of a given matrix.
     """
     pass
 
 
 def sym(matrix):
     """
+    Returns: The symmetrical form of a given matrix.
     """
-    pass
+    return matrix * trans(matrix)
 
 
 def eig(matrix):
     """
+    Returns: eigenvectors of a given matrix.
     """
     pass
+
+
 #======================
 #   Property Testers
 #======================
-
 def is_square(matrix):
     """
+    Returns: True if the matrix is square, else False.
+
+    Precondition: matrix is a Matrix object.
     """
     pass
 
@@ -408,5 +430,3 @@ def is_li(matrix):
     """
     """
     pass
-
-if __name__ == '__main__':
