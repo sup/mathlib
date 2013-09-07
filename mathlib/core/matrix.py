@@ -234,12 +234,26 @@ class Matrix(object):
         assert type(value) == float or type(value) == int
         self._matrix[x - 1][y - 1] = value
 
+
     def get_row(self, row_number):
         """
         Returns: The specified row in matrix self. The row is a python list.
         """
         assert row_number <= self._m and row_number > 0, "This is not a valid row number"
         return self._matrix[row_number - 1]
+
+
+    def set_row(self, row_number, row): #FINISH THIS METHOD - NOT COMPLETE
+        """
+        Procedure: Sets the value for a specific row.
+        """
+        assert type(row) == list, "The parameter is not a list."
+        assert row_number >= 1 and row_number <= self.m, "The row number is invalid"
+        count = 1
+        for e in row:
+            self.set(row_number, count, e)
+            count += 1
+
 
     def get_col(self, col_number):
         """
@@ -365,6 +379,28 @@ def rref(matrix):
     """
     Returns: The reduced row echelon form of a given matrix.
     """
+    #==============
+    #FORWARD PHASE:
+    #==============
+    #
+    #1) Begin with the leftmost nonzero column. This is a pivot column. The pivot
+    #   position is at the top. 
+    #
+    #2) Select a nonzero entry in the pivot column as a pivot. If necessary, interchange rows 
+    #   to move this entry into the pivot position. 
+    #
+    #3) Use row addition operations to create zeros in all positions below the pivot.
+    #
+    #4) Cover (or ignore) the row containing the pivot position and cover all rows, if
+    #   any, above it. apply steps 1-3 to the submatrix that remains. Repeat the
+    #   process until there are no more nonzero rows to modify.
+    #
+    #===============
+    #BACKWARD PHASE:
+    #===============
+    #
+    #1) Beginning with the rightmost pivot and working upward and to the left, create
+    #   zeros above each pivot. If a pivot is not 1, make it 1 by a scaling operation.
     pass
 
 def trans(matrix):
