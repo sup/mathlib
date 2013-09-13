@@ -242,18 +242,18 @@ class Matrix(object):
         assert row_number <= self._m and row_number > 0, "This is not a valid row number"
         return self._matrix[row_number - 1]
 
-
     def set_row(self, row_number, row): #FINISH THIS METHOD - NOT COMPLETE
         """
-        Procedure: Sets the value for a specific row.
+        Procedure: Sets the value for a specfied row.
         """
-        assert type(row) == list, "The parameter is not a list."
+        assert type(row) == list, "The row data given is not a list."
         assert row_number >= 1 and row_number <= self.m, "The row number is invalid"
-        count = 1
+        assert len(row) == self.n, "The row given is not a valid length"
+        col_number = 1
+        #Iterate over columns in a single row and set values.
         for e in row:
-            self.set(row_number, count, e)
-            count += 1
-
+            self.set(row_number, col_number, e)
+            col_number += 1
 
     def get_col(self, col_number):
         """
@@ -261,12 +261,24 @@ class Matrix(object):
         """
         assert col_number <= self._n and col_number > 0, "This is not a valid col number"
         column = []
-        row_counter = 0
-        while row_counter < self._m:
-            column = column + [self._matrix[row_counter][col_number - 1]]
-            row_counter += 1
+        row_number = 0
+        while row_number < self._m:
+            column = column + [self._matrix[row_number][col_number - 1]]
+            row_number += 1
         return column
 
+    def set_col(self, col_number, col):
+        """
+        Procedure: Sets the value for a specified column.
+        """
+        assert col_number <= self._n and col_number >= 1, "This is not a valid col number"
+        assert type(col) == list, "The col data given is not a list."
+        assert len(col) == self.m, "The column given is not a valid length."
+        row_number = 1
+        #Iterate over rows in a single column and set values
+        for e in col:
+            self.set(row_number, col_number, e)
+            row_number += 1
 
     def add_row(self, row):
         """
@@ -384,8 +396,8 @@ def rref(matrix):
     #==============
     #
     #1) Begin with the leftmost nonzero column. This is a pivot column. The pivot
-    #   position is at the top. 
-    #
+    #   position is at the top.
+    pivot_col = matrix.get_col()
     #2) Select a nonzero entry in the pivot column as a pivot. If necessary, interchange rows 
     #   to move this entry into the pivot position. 
     #
