@@ -397,8 +397,16 @@ def rref(matrix):
     #
     #1) Begin with the leftmost nonzero column. This is a pivot column. The pivot
     #   position is at the top.
-    pivot_col = matrix.get_col()
-    #2) Select a nonzero entry in the pivot column as a pivot. If necessary, interchange rows 
+    #Build a return matrix to place rref(matrix) values into
+    return_matrix = unimath.zeros(matrix.m, matrix.n)
+    lead = 1
+    col_count = 1
+    row_count = 1
+    while col_count <= matrix.n:
+        pivot_col = matrix.get_col(col_count)
+        while pivot_col[row_count - 1] == 0:
+            row_count += 1
+    #    #2) Select a nonzero entry in the pivot column as a pivot. If necessary, interchange rows 
     #   to move this entry into the pivot position. 
     #
     #3) Use row addition operations to create zeros in all positions below the pivot.
@@ -460,7 +468,6 @@ def eig(matrix):
     Returns: eigenvectors of a given matrix.
     """
     pass
-
 
 #======================
 #   Property Testers

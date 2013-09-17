@@ -176,7 +176,7 @@ def mersenne_twister(limits=[0,1], size=1):
     pass
 
 
-def ICG(limits=[0,1], size):
+def ICG(limits=[0,1], size=1):
     """
     Returns:
 
