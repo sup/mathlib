@@ -81,12 +81,13 @@ class Matrix(object):
     Note: Addition, subtraction, multiplication, and division can also be done
     with add(), sub(), mult(), div() from the unimath module in the core package.
     """
-    #Properties
+    #Fields
     _matrix = None
     _m = 0
     _n = 0
     _is_square = False
 
+    #Properties
     @property 
     def matrix(self):
         return self._matrix
@@ -95,19 +96,20 @@ class Matrix(object):
     def matrix(self, raw_matrix):
         self._matrix = raw_matrix
 
-    @property #immutable
+    #Immutable Properties
+    @property 
     def m(self):
         return self._m
 
-    @property #immutable
+    @property 
     def n(self):
         return self._n
 
-    @property #immutable
+    @property 
     def is_square(self):
         return self._is_square
 
-    #Constructor
+    #Built-in Functions
     def __init__(self, raw_matrix):
         """
         Constructor: Create a new instance of a Matrix
@@ -129,13 +131,13 @@ class Matrix(object):
         Precondition: The two matrices must be the same size.
         """
         #Enforce the preconditions
-        assert self._m == other.m, "The two matrices differ in number of rows"
-        assert self._n == other.n, "The two matrices differ in number of cols"
+        assert self.m == other.m, "The two matrices differ in number of rows"
+        assert self.n == other.n, "The two matrices differ in number of cols"
         #Add the two matrices
         #Add a scalar to every value in the matrix
         if type(other) == int or type(other) == float:
-            for x in range(0, self._m):
-                for y in range(0, self._n):
+            for x in range(0, self.m):
+                for y in range(0, self.n):
                     self._matrix[x][y] = self._matrix[x][y] + other
         pass
 
@@ -148,8 +150,8 @@ class Matrix(object):
         Precondition: The two matrices must be the same size.
         """
         #Enforce the preconditions
-        assert self._m == other.m, "The two matrices differ in number of rows"
-        assert self._n == other.n, "The two matrices differ in number of cols"
+        assert self.m == other.m, "The two matrices differ in number of rows"
+        assert self.n == other.n, "The two matrices differ in number of cols"
         #Subtract the two matrices
         #Subtract the matrix by a scalar
         pass
@@ -170,15 +172,15 @@ class Matrix(object):
         values in the first matrix are added to the second matrix.
         """
         #Enforce the preconditions
-        assert self._n == other.m, "The dimensions of the matrices are invalid."
+        assert self.n == other.m, "The dimensions of the matrices are invalid."
         #Create the return matrix
-        temp_list = unimath.zeros(self._m, other.n)
+        temp_list = unimath.zeros(self.m, other.n)
         product_matrix = Matrix(temp_list)
         #Multiply the two matrices
         row_counter = 1
         col_counter = 1
-        while col_counter <= other._n:
-            while row_counter <= self._m:
+        while col_counter <= other.n:
+            while row_counter <= self.m:
                 #Multiply the all rows by the column and get the product
                 temp_row = self.get_row(row_counter)
                 temp_col = other.get_col(col_counter)
@@ -239,7 +241,7 @@ class Matrix(object):
         """
         Returns: The specified row in matrix self. The row is a python list.
         """
-        assert row_number <= self._m and row_number > 0, "This is not a valid row number"
+        assert row_number <= self.m and row_number > 0, "This is not a valid row number"
         return self._matrix[row_number - 1]
 
     def set_row(self, row_number, row): #FINISH THIS METHOD - NOT COMPLETE
@@ -259,10 +261,10 @@ class Matrix(object):
         """
         Returns: The specified col in matrix self. The col is a python list.
         """
-        assert col_number <= self._n and col_number > 0, "This is not a valid col number"
+        assert col_number <= self.n and col_number > 0, "This is not a valid col number"
         column = []
         row_number = 0
-        while row_number < self._m:
+        while row_number < self.m:
             column = column + [self._matrix[row_number][col_number - 1]]
             row_number += 1
         return column
@@ -271,7 +273,7 @@ class Matrix(object):
         """
         Procedure: Sets the value for a specified column.
         """
-        assert col_number <= self._n and col_number >= 1, "This is not a valid col number"
+        assert col_number <= self.n and col_number >= 1, "This is not a valid col number"
         assert type(col) == list, "The col data given is not a list."
         assert len(col) == self.m, "The column given is not a valid length."
         row_number = 1
@@ -287,10 +289,10 @@ class Matrix(object):
         Precondition: The row must be have the same length as other rows in
         the matrix. Argument passed to row is a python list.
         """
-        assert len(row) == self._n, "The row has an invalid length"
+        assert len(row) == self.n, "The row has an invalid length"
         #Add the whole row to the end of the matrix
         self._matrix = self._matrix + [row]
-        self._m += 1
+        self.m += 1
 
     def add_col(self, col):
         """
@@ -298,13 +300,13 @@ class Matrix(object):
 
         Precondition: The column must have the same length as other rows 
         """
-        assert len(col) == self._m, "The column has an invalid length"
+        assert len(col) == self.m, "The column has an invalid length"
         #Add each element to the end of each row
         x = 0
         for y in col:
             self._matrix[x] = self._matrix[x] + [y]
             x += 1
-        self._n += 1
+        self.n += 1
         
 
     def sub_row(self, x):
@@ -314,7 +316,7 @@ class Matrix(object):
 
         Precondition: x must be a valid row number
         """
-        assert self._m >= x, "The row number given is too large"
+        assert self.m >= x, "The row number given is too large"
         assert x > 0, "Try again with a row number > 0"
         self._matrix.remove(self._matrix[x - 1])
 
@@ -324,9 +326,9 @@ class Matrix(object):
 
         Precondition: y must be a valid column number.
         """
-        assert self._n >= y, "The column number given is too large"
+        assert self.n >= y, "The column number given is too large"
         assert y > 0, "Try again with a column number > 0"
-        for x in range(0, self._m):
+        for x in range(0, self.m):
             self._matrix.remove(self._matrix[x][y])
 
     #Helper Methods
@@ -344,26 +346,26 @@ class Matrix(object):
             assert type(raw_matrix) == str, "The matrix given is not a string"
             assert raw_matrix[0] != "[", "Use Matlab matrix notation without braces"
             #Initialize default values
-            self._m = -1
-            self._n = -1
+            self.m = -1
+            self.n = -1
             #Split the matrix up into rows of strings and set m to len(self._matrix
             self._matrix = raw_matrix.split(';')
-            self._m = len(self._matrix)
+            self.m = len(self._matrix)
             #Continue parsing the input, make rows into lists of numbers
-            for x in range(0, self._m):
+            for x in range(0, self.m):
                 self._matrix[x] = self.matrix[x].split(",")
                 self._matrix[x] = list(map(float, self.matrix[x]))
             #Set n to the number of elements in each row
-            self._n = len(self._matrix[0])
+            self.n = len(self._matrix[0])
             #Set whether the matrix is a square matrix
-            if self._m == self._n:
+            if self.m == self.n:
                 self._is_square == True
         #Case 2: raw_matrix is a valid 2D list in matrix form:
         elif type(raw_matrix) == list:
             self._matrix = raw_matrix
-            self._m = len(self._matrix)
-            self._n = len(self._matrix[0])
-            if self._m == self._n:
+            self.m = len(self._matrix)
+            self.n = len(self._matrix[0])
+            if self.m == self.n:
                 self._is_square == True
 
     def _check(self):
@@ -373,7 +375,7 @@ class Matrix(object):
         """
         #Test if the rest of the rows are the same length
         for r in range(0, self.m):
-            assert len(self._matrix[r]) == self._n, "Invalid row lengths"
+            assert len(self._matrix[r]) == self.n, "Invalid row lengths"
             assert type(self._matrix[r]) == list, "Some rows aren't lists"
 
 
