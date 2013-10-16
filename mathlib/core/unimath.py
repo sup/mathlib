@@ -39,9 +39,7 @@ Markup Languages:
 
 """
 
-#================
-#   Basic Math
-#================
+#== Basic Algebraic Functions ============================================
 def add(a, b):
     """
     Return: The sum of two items a and b.
@@ -115,9 +113,7 @@ def GCD(a, b):
     pass
 
 
-#=========================
-#   Sequence Operations
-#=========================
+#== Sequence Operations ==================================================
 def listsum(list):
     """
     Returns: The cummulative sum of values in a list.
@@ -219,9 +215,7 @@ def fliplr(list):
         return flipped_list
 
 
-#======================
-#   Markup Languages
-#======================
+#== Markup Code Generators ===============================================
 def latex(obj):
     """
     """

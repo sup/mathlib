@@ -37,9 +37,7 @@ Distributions:
 * Poisson
 
 """
-#=============================
-#   Pseudorandom Generators
-#=============================
+#== Pseudorandom Number Generators =======================================
 def LCG(limits=[0,1], size=1):
     """
     Returns: A series of pseudorandom numbers of range *limits* and size
@@ -188,10 +186,7 @@ def ICG(limits=[0,1], size=1):
     pass
 
 
-#===================
-#   Distributions
-#===================
-
+#== Random Variable Distributions ========================================
 def normal(random_numbers):
     pass
 

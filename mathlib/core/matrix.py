@@ -379,9 +379,7 @@ class Matrix(object):
             assert type(self._matrix[r]) == list, "Some rows aren't lists"
 
 
-#======================
-#   Matrix Functions
-#======================
+#== Matrix Functions =====================================================
 def ref(matrix):
     """
     Returns: The row echelon form of a given matrix.
@@ -471,9 +469,7 @@ def eig(matrix):
     """
     pass
 
-#======================
-#   Property Testers
-#======================
+#== Properties of Matrix Testers =========================================
 def is_square(matrix):
     """
     Returns: True if the matrix is square, else False.

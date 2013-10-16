@@ -14,19 +14,15 @@ analysis including primality tests, prime factorizations, and other
 functions. Part of the MathLib/numbers package.
 
 """
-#=======================
-#   Prime Factorization
-#=======================
+#== Prime Number Factorization ===========================================
 def factor_primes(value):
     pass
 
-#=====================
-#   Primality Tests
-#=====================
+#== Primality Tests ======================================================
 def fermat_primality(value, counter):
     pass
 
-#DEBUG THIS
+# vvv DEBUG THIS FUNCTION vvvv ===========================================
 def solovay_strassen(value, counter):
     """
     Returns: False if the value is a composite number, else it 
@@ -47,7 +43,7 @@ def solovay_strassen(value, counter):
         i += 1
     return True
 
-
+#== Testing Application ==================================================
 if __name__ == '__main__':
     print fermat_primality(10, 100)
     print fermat_primality(17, 100)

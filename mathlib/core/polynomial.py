@@ -29,9 +29,8 @@ Contents
 * polyprod()   - Cummulative product of a polynomial
 
 """
-#======================
-#   Polynomial Class
-#======================
+
+#== General Polynomial Class =============================================
 class Polynomial(object):
     """
     Instances represent a one-dimensional polynomial. 
@@ -55,10 +54,11 @@ class Polynomial(object):
     Note: Addition, subtraction, multiplication, and division can also be done
     with add(), sub(), mult(), div() from the unimath module in the core package.
     """
-    #Properties
+    #Fields (hidden)
     _formula = []   #List of polynomial coefficients
     _length = 0     #Length of the polynomial; Immutable
 
+    #Properties
     @property
     def formula(self):
         return self._formula
@@ -68,6 +68,7 @@ class Polynomial(object):
         self._formula = formula
         self._length = len(formula)
 
+    #Immutable Properties
     @property
     def length(self):
         return self._length
@@ -76,7 +77,7 @@ class Polynomial(object):
     def __init__(self, formula):
         """
         """
-        self._formula = formula
+        self.formula = formula
         self._length = len(formula)
 
     def __str__(self):

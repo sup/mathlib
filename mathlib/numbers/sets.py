@@ -7,9 +7,7 @@ This module contains various functions and methods for set manipulation as
 well as other algorithms involving sets. Part of the MathLib/numbers package.
 """
 
-#======================
-#   Set Manipulation
-#======================
+#== Set Manipulation =====================================================
 def union(set_1, set_2):
     pass
 
