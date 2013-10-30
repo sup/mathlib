@@ -82,7 +82,7 @@ class Matrix(object):
     with add(), sub(), mult(), div() from the unimath module in the core package.
     """
     #Fields
-    _matrix = None
+    _data = None
     _m = 0
     _n = 0
     _is_square = False
@@ -90,11 +90,11 @@ class Matrix(object):
     #Properties
     @property 
     def matrix(self):
-        return self._matrix
+        return self._data
 
     @matrix.setter
-    def matrix(self, raw_matrix):
-        self._matrix = raw_matrix
+    def matrix(self, raw_data):
+        self._data = raw_data
 
     #Immutable Properties
     @property 
@@ -110,15 +110,15 @@ class Matrix(object):
         return self._is_square
 
     #Built-in Functions
-    def __init__(self, raw_matrix):
+    def __init__(self, raw_data):
         """
         Constructor: Create a new instance of a Matrix
         
-        Precondition: raw_matrix is a valid matrix input according to the
+        Precondition: raw_data is a valid matrix input according to the
         description in the meta documentation.
         """
-        #Case 1: raw_matrix is a string -> Matlab style
-        self._parse(raw_matrix)
+        #Case 1: raw_data is a string -> Matlab style
+        self._parse(raw_data)
         self._check()
 
     #Built-In Methods/Operator Overloading
@@ -138,7 +138,7 @@ class Matrix(object):
         if type(other) == int or type(other) == float:
             for x in range(0, self.m):
                 for y in range(0, self.n):
-                    self._matrix[x][y] = self._matrix[x][y] + other
+                    self._data[x][y] = self._data[x][y] + other
         pass
 
     def __sub__(self, other):
@@ -213,7 +213,7 @@ class Matrix(object):
         #Iteratively print the elements of the matrix
         for x in range(0, self.m):
             for y in range(0, self.n):
-                print '%10.3f' % self._matrix[x][y],
+                print '%10.3f' % self._data[x][y],
             print "\n"
 
     def get(self, x, y):
@@ -223,7 +223,7 @@ class Matrix(object):
         Precondition: x and y are valid coordinates using Matlab coordinate
         rules.
         """
-        return self._matrix[x-1][y-1]
+        return self._data[x-1][y-1]
 
     def set(self, x, y, value):
         """
@@ -234,7 +234,7 @@ class Matrix(object):
         """
         #Check if the value specified is a string or an actual list.
         assert type(value) == float or type(value) == int
-        self._matrix[x - 1][y - 1] = value
+        self._data[x - 1][y - 1] = value
 
 
     def get_row(self, row_number):
@@ -242,7 +242,7 @@ class Matrix(object):
         Returns: The specified row in matrix self. The row is a python list.
         """
         assert row_number <= self.m and row_number > 0, "This is not a valid row number"
-        return self._matrix[row_number - 1]
+        return self._data[row_number - 1]
 
     def set_row(self, row_number, row): #FINISH THIS METHOD - NOT COMPLETE
         """
@@ -265,7 +265,7 @@ class Matrix(object):
         column = []
         row_number = 0
         while row_number < self.m:
-            column = column + [self._matrix[row_number][col_number - 1]]
+            column = column + [self._data[row_number][col_number - 1]]
             row_number += 1
         return column
 
@@ -291,8 +291,8 @@ class Matrix(object):
         """
         assert len(row) == self.n, "The row has an invalid length"
         #Add the whole row to the end of the matrix
-        self._matrix = self._matrix + [row]
-        self.m += 1
+        self._data = self._data + [row]
+        self._m += 1
 
     def add_col(self, col):
         """
@@ -304,9 +304,9 @@ class Matrix(object):
         #Add each element to the end of each row
         x = 0
         for y in col:
-            self._matrix[x] = self._matrix[x] + [y]
+            self._data[x] = self._data[x] + [y]
             x += 1
-        self.n += 1
+        self._n += 1
         
 
     def sub_row(self, x):
@@ -318,7 +318,7 @@ class Matrix(object):
         """
         assert self.m >= x, "The row number given is too large"
         assert x > 0, "Try again with a row number > 0"
-        self._matrix.remove(self._matrix[x - 1])
+        self._data.remove(self._data[x - 1])
 
     def sub_col(self, y):
         """
@@ -329,44 +329,44 @@ class Matrix(object):
         assert self.n >= y, "The column number given is too large"
         assert y > 0, "Try again with a column number > 0"
         for x in range(0, self.m):
-            self._matrix.remove(self._matrix[x][y])
+            self._data.remove(self._data[x][y])
 
     #Helper Methods
-    def _parse(self, raw_matrix):
+    def _parse(self, raw_data):
         """
-        Procedure: Parses the raw_matrix string and updates the Matrix object.
+        Procedure: Parses the raw_data string and updates the Matrix object.
         Called during object construction.
 
-        Precondition: raw_matrix is a valid input according to the description
+        Precondition: raw_data is a valid input according to the description
         in the meta documentation at the top of the document.
         """
-        #Case 1: raw_matrix is a string
-        if type(raw_matrix) == str:
-            #Some assertions statements to QC the raw_matrix input
-            assert type(raw_matrix) == str, "The matrix given is not a string"
-            assert raw_matrix[0] != "[", "Use Matlab matrix notation without braces"
+        #Case 1: raw_data is a string
+        if type(raw_data) == str:
+            #Some assertions statements to QC the raw_data input
+            assert type(raw_data) == str, "The matrix given is not a string"
+            assert raw_data[0] != "[", "Use Matlab matrix notation without braces"
             #Initialize default values
-            self.m = -1
-            self.n = -1
-            #Split the matrix up into rows of strings and set m to len(self._matrix
-            self._matrix = raw_matrix.split(';')
-            self.m = len(self._matrix)
+            self._m = 1
+            self._n = 1
+            #Split the matrix up into rows of strings and set m to len(self._data
+            self._data = raw_data.split(';')
+            self._m = len(self._data)
             #Continue parsing the input, make rows into lists of numbers
             for x in range(0, self.m):
-                self._matrix[x] = self.matrix[x].split(",")
-                self._matrix[x] = list(map(float, self.matrix[x]))
+                self._data[x] = self.matrix[x].split(",")
+                self._data[x] = list(map(float, self.matrix[x]))
             #Set n to the number of elements in each row
-            self.n = len(self._matrix[0])
+            self._n = len(self._data[0])
             #Set whether the matrix is a square matrix
             if self.m == self.n:
-                self._is_square == True
-        #Case 2: raw_matrix is a valid 2D list in matrix form:
-        elif type(raw_matrix) == list:
-            self._matrix = raw_matrix
-            self.m = len(self._matrix)
-            self.n = len(self._matrix[0])
-            if self.m == self.n:
-                self._is_square == True
+                self._is_square = True
+        #Case 2: raw_data is a valid 2D list in matrix form:
+        elif type(raw_data) == list:
+            self._data = raw_data
+            self._m = len(self._data)
+            self._n = len(self._data[0])
+            if self._m == self.n:
+                self._is_square = True
 
     def _check(self):
         """
@@ -375,8 +375,8 @@ class Matrix(object):
         """
         #Test if the rest of the rows are the same length
         for r in range(0, self.m):
-            assert len(self._matrix[r]) == self.n, "Invalid row lengths"
-            assert type(self._matrix[r]) == list, "Some rows aren't lists"
+            assert len(self._data[r]) == self.n, "Invalid row lengths"
+            assert type(self._data[r]) == list, "Some rows aren't lists"
 
 
 #== Matrix Functions =====================================================
@@ -394,18 +394,18 @@ def rref(matrix):
     #==============
     #FORWARD PHASE:
     #==============
-    #
-    #1) Begin with the leftmost nonzero column. This is a pivot column. The pivot
-    #   position is at the top.
+
     #Build a return matrix to place rref(matrix) values into
-    return_matrix = unimath.zeros(matrix.m, matrix.n)
+    return_data = unimath.zeros(matrix.m, matrix.n)
     lead = 1
     col_count = 1
     row_count = 1
     while col_count <= matrix.n:
         pivot_col = matrix.get_col(col_count)
+        #Find the first non-zero entry
         while pivot_col[row_count - 1] == 0:
             row_count += 1
+        
     #    #2) Select a nonzero entry in the pivot column as a pivot. If necessary, interchange rows 
     #   to move this entry into the pivot position. 
     #
@@ -446,7 +446,9 @@ def det(matrix):
     """
     Returns: The determinant of a given matrix.
     """
-    pass
+    if matrix.is_square:
+        if matrix.n == 2:
+            return (matrix.get(1,1)*matrix.get(2,2) - matrix.get(1,2)*matrix.get(2,1))
 
 
 def diag(matrix):
