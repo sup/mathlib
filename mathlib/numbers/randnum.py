@@ -38,7 +38,7 @@ Distributions:
 
 """
 #== Pseudorandom Number Generators =======================================
-def LCG(limits=[0,1], size=1):
+def LCG(limits=[0,1], size=1, int_param=1):
     """
     Returns: A series of pseudorandom numbers of range *limits* and size
     *size*. Default: 1 number with range between 0 and 1.
@@ -87,12 +87,19 @@ def LCG(limits=[0,1], size=1):
     limit_divisor = modulus/limits[1]
     for i in range(0, len(series)):
         series[i] = series[i]/limit_divisor
-    if size == 1:
-        return series[0]
-    return series
+    #Check the integer parameter
+    if int_param:
+        if size == 1:
+            return int(series[0])
+        intify = lambda a: int(a)
+        return map(intify, series)
+    else:
+        if size == 1:
+            return series[0]
+        return series
 
 
-def lehmer(limits=[0,1], size=1):
+def lehmer(limits=[0,1], size=1, int_param=1):
     """
     Returns: A series of pseudorandom numbers of range *limits* and size
     *size*. Default: 1 number with range between 0 and 1.
@@ -138,7 +145,16 @@ def lehmer(limits=[0,1], size=1):
         series[i] = series[i]/limit_divisor
     if size == 1:
         return series[0]
-    return series
+    #Check the integer parameter:
+    if int_param:
+        if size == 1:
+            return int(series[0])
+        intify = lambda a: int(a)
+        return map(intify, series)
+    else:
+        if size == 1:
+            return series[0]
+        return series
 
 def mersenne_twister(limits=[0,1], size=1):
     """
