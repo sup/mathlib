@@ -244,7 +244,7 @@ class Matrix(object):
         assert row_number <= self.m and row_number > 0, "This is not a valid row number"
         return self._data[row_number - 1]
 
-    def set_row(self, row_number, row): #FINISH THIS METHOD - NOT COMPLETE
+    def set_row(self, row_number, row):
         """
         Procedure: Sets the value for a specfied row.
         """
@@ -382,46 +382,101 @@ class Matrix(object):
 #== Matrix Functions =====================================================
 def ref(matrix):
     """
-    Returns: The row echelon form of a given matrix.
+    Procedure: Row reduces a matrix.
     """
-    pass
+    #Initialize variables:
+    lead = 1                #The index of the pivot column
+    col_count = matrix.n    #The number of columns
+    row_count = matrix.m    #The number of rows
+    for r in range(1, row_count+1):
+        #If we have finished RREF on the last column, end.
+        if col_count < lead:
+            return
+        #Start with the rth row when finding a pivor entry
+        i = r
+        #Find the pivot entry of the pivot column - first non-zero entry
+        while matrix.get(i, lead) == 0:
+            i += 1
+            #If the whole column is empty, go to the next column.
+            if row_count < i:
+                i = r
+                lead += 1
+                if col_count == lead:
+                    return
+        #Swap rows i and r such that the pivot entry is above all others
+        row_i = matrix.get_row(i)
+        row_r = matrix.get_row(r)
+        matrix.set_row(i, row_r)
+        matrix.set_row(r, row_i)
+        #Update row_i and row_r lists for next steps
+        row_i = matrix.get_row(i)
+        row_r = matrix.get_row(r)
+        if matrix.get(r, lead) != 0:
+            #Divide the whole row by the pivot to get a 1
+            pivot = matrix.get(r,lead)
+            row_r = unimath.divlist(row_r, pivot)
+            matrix.set_row(r, row_r)
+        for i in range(r+1, row_count+1):
+            #Perform pivoted row operations to get all 0 below the pivot.
+            multiplier = matrix.get(i, lead)
+            row_r = matrix.get_row(r)
+            row_i = matrix.get_row(i)
+            row_r = unimath.mullist(row_r, multiplier)
+            sublist = lambda m,n: m-n
+            row_i = map(sublist, row_i, row_r)
+            matrix.set_row(i, row_i)
+        #Set the next column to be the pivoting column.
+        lead += 1
 
 
 def rref(matrix):
     """
-    Returns: The reduced row echelon form of a given matrix.
+    Procedure: Reduced row echelon form of a matrix
     """
-    #==============
-    #FORWARD PHASE:
-    #==============
-
-    #Build a return matrix to place rref(matrix) values into
-    return_data = unimath.zeros(matrix.m, matrix.n)
-    lead = 1
-    col_count = 1
-    row_count = 1
-    while col_count <= matrix.n:
-        pivot_col = matrix.get_col(col_count)
-        #Find the first non-zero entry
-        while pivot_col[row_count - 1] == 0:
-            row_count += 1
-        
-    #    #2) Select a nonzero entry in the pivot column as a pivot. If necessary, interchange rows 
-    #   to move this entry into the pivot position. 
-    #
-    #3) Use row addition operations to create zeros in all positions below the pivot.
-    #
-    #4) Cover (or ignore) the row containing the pivot position and cover all rows, if
-    #   any, above it. apply steps 1-3 to the submatrix that remains. Repeat the
-    #   process until there are no more nonzero rows to modify.
-    #
-    #===============
-    #BACKWARD PHASE:
-    #===============
-    #
-    #1) Beginning with the rightmost pivot and working upward and to the left, create
-    #   zeros above each pivot. If a pivot is not 1, make it 1 by a scaling operation.
-    pass
+    #Initialize variables:
+    lead = 1                #The index of the pivot column
+    col_count = matrix.n    #The number of columns
+    row_count = matrix.m    #The number of rows
+    for r in range(1, row_count+1):
+        #If we have finished RREF on the last column, end.
+        if col_count < lead:
+            return
+        #Start with the rth row when finding a pivor entry
+        i = r
+        #Find the pivot entry of the pivot column - first non-zero entry
+        while matrix.get(i, lead) == 0:
+            i += 1
+            #If the whole column is empty, go to the next column.
+            if row_count < i:
+                i = r
+                lead += 1
+                if col_count == lead:
+                    return
+        #Swap rows i and r such that the pivot entry is above all others
+        row_i = matrix.get_row(i)
+        row_r = matrix.get_row(r)
+        matrix.set_row(i, row_r)
+        matrix.set_row(r, row_i)
+        #Update row_i and row_r lists for next steps
+        row_i = matrix.get_row(i)
+        row_r = matrix.get_row(r)
+        if matrix.get(r, lead) != 0:
+            #Divide the whole row by the pivot to get a 1
+            pivot = matrix.get(r,lead)
+            row_r = unimath.divlist(row_r, pivot)
+            matrix.set_row(r, row_r)
+        for i in range(1, row_count+1):
+            #Perform pivoted row operations to get all 0 above and below pivot.
+            if i != r:
+                multiplier = matrix.get(i, lead)
+                row_r = matrix.get_row(r)
+                row_i = matrix.get_row(i)
+                row_r = unimath.mullist(row_r, multiplier)
+                sublist = lambda m,n: m-n
+                row_i = map(sublist, row_i, row_r)
+                matrix.set_row(i, row_i)
+        #Set the next column to be the pivoting column.
+        lead += 1
 
 def trans(matrix):
     """

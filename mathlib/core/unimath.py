@@ -62,7 +62,14 @@ def sub(a, b):
         return a - b
     #If this fails, go case by case until it works.
     except Exception:
-        pass
+        #Case: a is a list, b is a scalar
+        if type(a) == list and isinstance(b, (int,long,float))
+            return sublist(a, b)
+        #Case: a is a scalar, b is a list
+        #Case: a and b are both lists
+        if type(a) == list and type(b) == list:
+            function = lambda m,n: m-n
+            return map(function, a, b)
 
 
 def div(a, b):
