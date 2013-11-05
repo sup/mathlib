@@ -63,7 +63,7 @@ def sub(a, b):
     #If this fails, go case by case until it works.
     except Exception:
         #Case: a is a list, b is a scalar
-        if type(a) == list and isinstance(b, (int,long,float))
+        if type(a) == list and isinstance(b, (int,long,float)):
             return sublist(a, b)
         #Case: a is a scalar, b is a list
         #Case: a and b are both lists

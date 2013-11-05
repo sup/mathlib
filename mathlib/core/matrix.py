@@ -87,15 +87,6 @@ class Matrix(object):
     _n = 0
     _is_square = False
 
-    #Properties
-    @property 
-    def matrix(self):
-        return self._data
-
-    @matrix.setter
-    def matrix(self, raw_data):
-        self._data = raw_data
-
     #Immutable Properties
     @property 
     def m(self):
@@ -353,8 +344,8 @@ class Matrix(object):
             self._m = len(self._data)
             #Continue parsing the input, make rows into lists of numbers
             for x in range(0, self.m):
-                self._data[x] = self.matrix[x].split(",")
-                self._data[x] = list(map(float, self.matrix[x]))
+                self._data[x] = self._data[x].split(",")
+                self._data[x] = list(map(float, self._data[x]))
             #Set n to the number of elements in each row
             self._n = len(self._data[0])
             #Set whether the matrix is a square matrix
@@ -401,7 +392,7 @@ def ref(matrix):
             if row_count < i:
                 i = r
                 lead += 1
-                if col_count == lead:
+                if col_count < lead:
                     return
         #Swap rows i and r such that the pivot entry is above all others
         row_i = matrix.get_row(i)
@@ -450,7 +441,10 @@ def rref(matrix):
             if row_count < i:
                 i = r
                 lead += 1
-                if col_count == lead:
+                if col_count < lead:
+                    #If last pivot is a 0, set the column as a zero vector
+                    zero = [0 for x in range(row_count)]
+                    matrix.set_col(col_count, zero)
                     return
         #Swap rows i and r such that the pivot entry is above all others
         row_i = matrix.get_row(i)
@@ -506,6 +500,77 @@ def det(matrix):
             return (matrix.get(1,1)*matrix.get(2,2) - matrix.get(1,2)*matrix.get(2,1))
 
 
+def inv(matrix):
+    """
+    Returns: The inverse of a given matrix.
+    """
+    assert matrix.is_square, "The matrix is not square and not invertible."
+    inverse = identity(matrix.n)
+    #Initialize variables:
+    lead = 1                #The index of the pivot column
+    col_count = matrix.n    #The number of columns
+    row_count = matrix.m    #The number of rows
+    for r in range(1, row_count+1):
+        #If we have finished RREF on the last column, end.
+        if col_count < lead:
+            return inverse
+        #Start with the rth row when finding a pivor entry
+        i = r
+        #Find the pivot entry of the pivot column - first non-zero entry
+        while matrix.get(i, lead) == 0:
+            i += 1
+            #If the whole column is empty, go to the next column.
+            if row_count < i:
+                i = r
+                lead += 1
+                if col_count == lead:
+                    return inverse
+        #Swap rows i and r such that the pivot entry is above all others
+        row_i = matrix.get_row(i)
+        row_r = matrix.get_row(r)
+        matrix.set_row(i, row_r)
+        matrix.set_row(r, row_i)
+        #Do the same for the identity
+        inv_row_i = inverse.get_row(i)
+        inv_row_r = inverse.get_row(r)
+        inverse.set_row(i, inv_row_r)
+        inverse.set_row(r, inv_row_i)
+        #Update row_i and row_r lists for next steps
+        row_i = matrix.get_row(i)
+        row_r = matrix.get_row(r)
+        inv_row_i = inverse.get_row(i)
+        inv_row_r = inverse.get_row(r)
+        if matrix.get(r, lead) != 0:
+            #Divide the whole row by the pivot to get a 1
+            pivot = matrix.get(r,lead)
+            row_r = unimath.divlist(row_r, pivot)
+            inv_row_r = unimath.divlist(inv_row_r, pivot)
+            matrix.set_row(r, row_r)
+            inverse.set_row(r, inv_row_r)
+        for i in range(1, row_count+1):
+            #Perform pivoted row operations to get all 0 above and below pivot.
+            if i != r:
+                multiplier = matrix.get(i, lead)
+                row_r = matrix.get_row(r)
+                row_i = matrix.get_row(i)
+                inv_row_r = inverse.get_row(r)
+                inv_row_i = inverse.get_row(i)
+
+                row_r = unimath.mullist(row_r, multiplier)
+                inv_row_r = unimath.mullist(inv_row_r, multiplier)
+
+                sublist = lambda m,n: m-n
+
+                row_i = map(sublist, row_i, row_r)
+                inv_row_i = map(sublist, inv_row_i, inv_row_r)
+
+                matrix.set_row(i, row_i)
+                inverse.set_row(i, inv_row_i)
+        #Set the next column to be the pivoting column.
+        lead += 1
+    return inverse
+
+
 def diag(matrix):
     """
     Returns: The diagonalized form of a given matrix.
@@ -526,6 +591,17 @@ def eig(matrix):
     """
     pass
 
+def identity(n):
+    """
+    Returns: The identity matrix of size n
+    """
+    identity_matrix = Matrix(unimath.zeros(n,n))
+    i = 1
+    while i <= n:
+        identity_matrix.set(i, i, 1)
+        i += 1
+    return identity_matrix
+    
 #== Properties of Matrix Testers =========================================
 def is_square(matrix):
     """
