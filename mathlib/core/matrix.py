@@ -498,6 +498,8 @@ def det(matrix):
     if matrix.is_square:
         if matrix.n == 2:
             return (matrix.get(1,1)*matrix.get(2,2) - matrix.get(1,2)*matrix.get(2,1))
+        else:
+            return 
 
 
 def inv(matrix):
@@ -514,7 +516,7 @@ def inv(matrix):
         #If we have finished RREF on the last column, end.
         if col_count < lead:
             return inverse
-        #Start with the rth row when finding a pivor entry
+        #Start with the rth row when finding a pivot entry
         i = r
         #Find the pivot entry of the pivot column - first non-zero entry
         while matrix.get(i, lead) == 0:
@@ -523,7 +525,7 @@ def inv(matrix):
             if row_count < i:
                 i = r
                 lead += 1
-                if col_count == lead:
+                if col_count < lead:
                     return inverse
         #Swap rows i and r such that the pivot entry is above all others
         row_i = matrix.get_row(i)
