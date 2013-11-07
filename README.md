@@ -1,6 +1,5 @@
-========
 MathLib
-========
+=======
 
 MathLib is a python library that provides a variety packages and
 modules containing functions and methods useful for many different
