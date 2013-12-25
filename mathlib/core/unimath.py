@@ -51,6 +51,10 @@ def add(a, b):
     except Exception:
         if type(a) == Polynomial and type(b) == Polynomial:
             pass
+        #Case: a and b are both lists
+        if type(a) == list and type(b) == list:
+            function = lambda m,n: m+n
+            return map(function, a, b)
             
 
 def sub(a, b):
@@ -81,7 +85,10 @@ def div(a, b):
         return a / b
     #If this fails, go case by case until it works.
     except Exception:
-        pass
+        #Case: a and b are both lists
+        if type(a) == list and type(b) == list:
+            function = lambda m,n: m/n
+            return map(function, a, b)
 
 
 def mult(a, b):
@@ -93,18 +100,10 @@ def mult(a, b):
         return a * b
     #If this fails, go case by case until it works.
     except Exception:
-        #LARGE SWITCH-CASE SYSTEM:
-        #Case: a AND b are LIST types. Multiply respective elements
+        #Case: a and b are both lists
         if type(a) == list and type(b) == list:
-            try:
-                temp_list = []
-                for element_a in a:
-                    index_b = 0
-                    temp_list = temp_list + [element_a * b[index_b]]
-                    index_b += 1
-                return temp_list
-            except Exception:
-                print "These lists are not the same size."
+            function = lambda m,n: m*n
+            return map(function, a, b)
 
 def factorial(n):
     """

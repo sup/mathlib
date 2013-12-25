@@ -75,7 +75,7 @@ class Matrix(object):
 
     Each matrix contains a variety of different methods for adding,
     subtracting, setting, and getting values/rows/columns as well as
-    overloaded operatros for matrix scalar addition/subtraction in 
+    overloaded operators for matrix scalar addition/subtraction in 
     addition to matrix multiplication and division.
 
     Note: Addition, subtraction, multiplication, and division can also be done
@@ -112,7 +112,7 @@ class Matrix(object):
         self._parse(raw_data)
         self._check()
 
-    #Built-In Methods/Operator Overloading
+    #Arithemetic Operator Overloading
     def __add__(self, other):
         """
         Returns: The sum of two matrices 
@@ -121,16 +121,27 @@ class Matrix(object):
 
         Precondition: The two matrices must be the same size.
         """
-        #Enforce the preconditions
-        assert self.m == other.m, "The two matrices differ in number of rows"
-        assert self.n == other.n, "The two matrices differ in number of cols"
-        #Add the two matrices
+        #Matrix Addition
+        if type(self) == Matrix and type(other) == Matrix:
+            #Enforce the preconditions
+            assert self.m == other.m, "The two matrices differ in number of rows"
+            assert self.n == other.n, "The two matrices differ in number of cols"
+            #Create the return matrix
+            sum_matrix = Matrix(unimath.zeros(self.m, other.n))
+            #Subtract the two matrices
+            x = 1
+            while x <= other.m:
+                row_a = self.get_row(x)
+                row_b = other.get_row(x)
+                difference = unimath.add(row_a, row_b)
+                sum_matrix.set_row(x,difference)
+                x += 1
+            return sum_matrix
         #Add a scalar to every value in the matrix
         if type(other) == int or type(other) == float:
             for x in range(0, self.m):
                 for y in range(0, self.n):
                     self._data[x][y] = self._data[x][y] + other
-        pass
 
     def __sub__(self, other):
         """
@@ -140,13 +151,27 @@ class Matrix(object):
 
         Precondition: The two matrices must be the same size.
         """
-        #Enforce the preconditions
-        assert self.m == other.m, "The two matrices differ in number of rows"
-        assert self.n == other.n, "The two matrices differ in number of cols"
-        #Subtract the two matrices
-        #Subtract the matrix by a scalar
-        pass
-
+        #Matrix subtraction
+        if type(self) == Matrix and type(other) == Matrix:
+            #Enforce the preconditions
+            assert self.m == other.m, "The two matrices differ in number of rows"
+            assert self.n == other.n, "The two matrices differ in number of cols"
+            #Create the return matrix
+            difference_matrix = Matrix(unimath.zeros(self.m, other.n))
+            #Subtract the two matrices
+            x = 1
+            while x <= other.m:
+                row_a = self.get_row(x)
+                row_b = other.get_row(x)
+                difference = unimath.sub(row_a, row_b)
+                difference_matrix.set_row(x,difference)
+                x += 1
+            return difference_matrix
+        #Scalar subtraction        
+        if type(other) == int or type(other) == float:
+            for x in range(0, self.m):
+                for y in range(0, self.n):
+                    self._data[x][y] = self._data[x][y] - other
 
     def __mul__(self, other):
         """
@@ -162,36 +187,67 @@ class Matrix(object):
         Matrix multiplication is more than simple addition where cooresponding
         values in the first matrix are added to the second matrix.
         """
-        #Enforce the preconditions
-        assert self.n == other.m, "The dimensions of the matrices are invalid."
-        #Create the return matrix
-        temp_list = unimath.zeros(self.m, other.n)
-        product_matrix = Matrix(temp_list)
-        #Multiply the two matrices
-        row_counter = 1
-        col_counter = 1
-        while col_counter <= other.n:
-            while row_counter <= self.m:
-                #Multiply the all rows by the column and get the product
-                temp_row = self.get_row(row_counter)
-                temp_col = other.get_col(col_counter)
-                pre_sum = unimath.mult(temp_row, temp_col)
-                final_sum = unimath.listsum(pre_sum)
-                #Set the product to the correct space in the product matrix
-                product_matrix.set(row_counter, col_counter, final_sum)
-                row_counter += 1
-            #Reset the row counter and continue with the mext column
-            row_counter = 1
-            col_counter += 1
-        return product_matrix
-        #Multiply the matrix by a scalar
-        pass
+        #Matrix Multiplication
+        if type(self) == Matrix and type(other) == Matrix:
+            #Enforce the preconditions
+            assert self.n == other.m, "The dimensions of the matrices are invalid."
+            #Create the return matrix
+            product_matrix = Matrix(unimath.zeros(self.m, other.n))
+            #Multiply the two matrices
+            x = 1
+            y = 1
+            while y <= other.n:
+                col_b = other.get_col(y)
+                while x <= self.m:
+                    #Multiply the all rows by the column and get the product
+                    row_a = self.get_row(x)
+                    product = unimath.mult(row_a, col_b)
+                    final_sum = unimath.listsum(product)
+                    #Set the product to the correct space in the product matrix
+                    product_matrix.set(x, y, final_sum)
+                    x += 1
+                #Reset the row counter and continue with the next column
+                x = 1
+                y += 1
+            return product_matrix
+        #Scalar multiplication        
+        if type(other) == int or type(other) == float:
+            for x in range(0, self.m):
+                for y in range(0, self.n):
+                    self._data[x][y] = self._data[x][y] * other
 
     def __div__(self, other):
         """
         Procedure: Scalar division of self.
         """
-        pass
+        #Matrix Division
+        if type(self) == Matrix and type(other) == Matrix:
+            #Enforce the preconditions
+            assert self.n == other.m, "The dimensions of the matrices are invalid."
+            #Create the return matrix
+            quotient_matrix = Matrix(unimath.zeros(self.m, other.n))
+            #Multiply the two matrices
+            x = 1
+            y = 1
+            while y <= other.n:
+                col_b = other.get_col(y)
+                while x <= self.m:
+                    #Multiply the all rows by the column and get the product
+                    row_a = self.get_row(x)
+                    quotient = unimath.div(row_a, col_b)
+                    final_sum = unimath.listsum(product)
+                    #Set the product to the correct space in the product matrix
+                    quotient_matrix.set(x, y, final_sum)
+                    x += 1
+                #Reset the row counter and continue with the next column
+                x = 1
+                y += 1
+            return quotient_matrix
+        #Scalar division        
+        if type(other) == int or type(other) == float:
+            for x in range(0, self.m):
+                for y in range(0, self.n):
+                    self._data[x][y] = self._data[x][y] / other
 
     #Methods Proper
     def disp(self, heading = "Matrix:"):
@@ -220,7 +276,7 @@ class Matrix(object):
         """
         Procedure: Sets value at a specfied coordinate point to a new value.
 
-        Precondition:b x and y are valid coordinates using Matlab coordinate
+        Precondition: x and y are valid coordinates using Matlab coordinate
         rules.
         """
         #Check if the value specified is a string or an actual list.
