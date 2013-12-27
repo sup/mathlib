@@ -44,17 +44,15 @@ def add(a, b):
     """
     Return: The sum of two items a and b.
     """
-    #Attempt to use overloaded operators
-    try:
+    #Addition by cases
+    if type(a) == list and type(b) == list:
+        function = lambda m,n: m+n
+        return map(function, a, b)
+    if type(a) == Polynomial and type(b) == Polynomial:
+        pass
+    #If the case isn't here, try the simple operator
+    else:
         return a + b
-    #If this fails, go case by case until it works.
-    except Exception:
-        if type(a) == Polynomial and type(b) == Polynomial:
-            pass
-        #Case: a and b are both lists
-        if type(a) == list and type(b) == list:
-            function = lambda m,n: m+n
-            return map(function, a, b)
             
 
 def sub(a, b):

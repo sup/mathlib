@@ -133,8 +133,8 @@ class Matrix(object):
             while x <= other.m:
                 row_a = self.get_row(x)
                 row_b = other.get_row(x)
-                difference = unimath.add(row_a, row_b)
-                sum_matrix.set_row(x,difference)
+                summation = unimath.add(row_a, row_b)
+                sum_matrix.set_row(x,summation)
                 x += 1
             return sum_matrix
         #Add a scalar to every value in the matrix
@@ -558,10 +558,11 @@ def det(matrix):
             return 
 
 
-def inv(matrix):
+def inv(m):
     """
     Returns: The inverse of a given matrix.
     """
+    matrix = Matrix(m._data)
     assert matrix.is_square, "The matrix is not square and not invertible."
     inverse = identity(matrix.n)
     #Initialize variables:
@@ -638,7 +639,7 @@ def diag(matrix):
 
 def sym(matrix):
     """
-    Returns: The symmetrical form of a given matrix.
+    Returns: The symmetric form of a given matrix.
     """
     return matrix * trans(matrix)
 
