@@ -476,14 +476,16 @@ def ref(matrix):
         lead += 1
 
 
-def rref(matrix):
+def rref(m):
     """
-    Procedure: Reduced row echelon form of a matrix
+    Returns: Reduced row echelon form of a matrix
     """
     #Initialize variables:
-    lead = 1                #The index of the pivot column
-    col_count = matrix.n    #The number of columns
-    row_count = matrix.m    #The number of rows
+    orig_data = parse_list(m._data)
+    matrix = Matrix(orig_data)      #New matrix to return as RREF
+    lead = 1                        #The index of the pivot column
+    col_count = matrix.n            #The number of columns
+    row_count = matrix.m            #The number of rows
     for r in range(1, row_count+1):
         #If we have finished RREF on the last column, end.
         if col_count < lead:
@@ -562,7 +564,8 @@ def inv(m):
     """
     Returns: The inverse of a given matrix.
     """
-    matrix = Matrix(m._data)
+    orig_data = parse_list(m._data)
+    matrix = Matrix(orig_data)
     assert matrix.is_square, "The matrix is not square and not invertible."
     inverse = identity(matrix.n)
     #Initialize variables:
@@ -660,7 +663,17 @@ def identity(n):
         identity_matrix.set(i, i, 1)
         i += 1
     return identity_matrix
-    
+
+#== Other Functions ======================================================
+def parse_list(l):
+    """
+    Returns: A list into an appropriate string for usage in the Matrix
+    constructor function.
+    """
+    s = str(l)
+    s = s.replace("[[","").replace("]]","").replace("[","").replace("],",";").replace(" ","")
+    return s
+
 #== Properties of Matrix Testers =========================================
 def is_square(matrix):
     """
