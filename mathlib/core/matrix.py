@@ -260,7 +260,7 @@ class Matrix(object):
         #Iteratively print the elements of the matrix
         for x in range(0, self.m):
             for y in range(0, self.n):
-                print '%10.3f' % self._data[x][y],
+                print '%10.5f' % self._data[x][y],
             print "\n"
 
     def get(self, x, y):
@@ -356,7 +356,7 @@ class Matrix(object):
         self._n += 1
         
 
-    def sub_row(self, x):
+    def del_row(self, x):
         """
         Procedure: Subtracts a given row from the matrix by row number. x
         represents a specific row number.
@@ -366,8 +366,9 @@ class Matrix(object):
         assert self.m >= x, "The row number given is too large"
         assert x > 0, "Try again with a row number > 0"
         self._data.remove(self._data[x - 1])
+        self._m -= 1
 
-    def sub_col(self, y):
+    def del_col(self, y):
         """
         Procedure: Subtracts a given column from the matrix by column number.
 
@@ -376,7 +377,8 @@ class Matrix(object):
         assert self.n >= y, "The column number given is too large"
         assert y > 0, "Try again with a column number > 0"
         for x in range(0, self.m):
-            self._data.remove(self._data[x][y])
+            self._data[x].remove(self._data[x][y-1])
+        self._n -= 1
 
     #Helper Methods
     def _parse(self, raw_data):
@@ -489,7 +491,7 @@ def rref(m):
     for r in range(1, row_count+1):
         #If we have finished RREF on the last column, end.
         if col_count < lead:
-            return
+            return matrix
         #Start with the rth row when finding a pivor entry
         i = r
         #Find the pivot entry of the pivot column - first non-zero entry
@@ -503,7 +505,7 @@ def rref(m):
                     #If last pivot is a 0, set the column as a zero vector
                     zero = [0 for x in range(row_count)]
                     matrix.set_col(col_count, zero)
-                    return
+                    return matrix
         #Swap rows i and r such that the pivot entry is above all others
         row_i = matrix.get_row(i)
         row_r = matrix.get_row(r)
@@ -529,6 +531,8 @@ def rref(m):
                 matrix.set_row(i, row_i)
         #Set the next column to be the pivoting column.
         lead += 1
+    return matrix
+
 
 def trans(matrix):
     """
@@ -549,15 +553,39 @@ def trans(matrix):
     return transpose
 
 
-def det(matrix):
+def det(m):
     """
-    Returns: The determinant of a given matrix.
+    Returns: The determinant of a given matrix computed recursively.
     """
+    matrix = Matrix(parse_list(m._data))
+    #If the matrix isn't square, no determinant
     if matrix.is_square:
-        if matrix.n == 2:
+        size = matrix.n
+        d = 0
+        #2x2 matrix base case
+        if size == 2:
             return (matrix.get(1,1)*matrix.get(2,2) - matrix.get(1,2)*matrix.get(2,1))
         else:
-            return 
+            for col in range(size+1)[1:]:
+                matrix = Matrix(parse_list(m._data))
+                if col % 2 != 0:
+                    #Get the multiplier
+                    coefficient = matrix.get(1,col)
+                    #Create the submatrix
+                    matrix.del_row(1)
+                    matrix.del_col(col)
+                    #Add the term to the determinant returned
+                    d = d + coefficient * det(Matrix(parse_list(matrix._data)))
+                if col % 2 == 0:
+                    #Get the multiplier
+                    coefficient = -matrix.get(1,col)
+                    #Create the submatrix
+                    matrix.del_row(1)
+                    matrix.del_col(col)
+                    #Add the term to the determinant returned
+                    d = d + coefficient * det(Matrix(parse_list(matrix._data)))
+            return d
+
 
 
 def inv(m):
