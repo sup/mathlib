@@ -584,6 +584,7 @@ def det(m):
                     matrix.del_col(col)
                     #Add the term to the determinant returned
                     d = d + coefficient * det(Matrix(parse_list(matrix._data)))
+            #return the determinant after summation
             return d
 
 
@@ -660,6 +661,11 @@ def inv(m):
         lead += 1
     return inverse
 
+def QR(matrix):
+    """
+    Returns: The QR decomposition of a matrix.
+    """
+    pass
 
 def diag(matrix):
     """
@@ -675,9 +681,10 @@ def sym(matrix):
     return matrix * trans(matrix)
 
 
-def eig(matrix):
+def eig(matrix, option=None):
     """
-    Returns: eigenvectors of a given matrix.
+    Returns: eigenvectors/values of a given matrix. Changing the option 
+    changes the algorithm used to compute eigenvectors/values
     """
     pass
 
@@ -691,6 +698,12 @@ def identity(n):
         identity_matrix.set(i, i, 1)
         i += 1
     return identity_matrix
+
+def spectral():
+    pass
+
+def svd():
+    pass
 
 #== Other Functions ======================================================
 def parse_list(l):
