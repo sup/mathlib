@@ -103,6 +103,25 @@ def mult(a, b):
             function = lambda m,n: m*n
             return map(function, a, b)
 
+def exp(x, n):
+    """
+    Returns: x^n using repeated squaring
+    """
+    #If n is negative, do the negative version
+    if n<0:
+        return exp(1/x, -n)
+    #Two base cases
+    elif n==0:
+        return 1
+    elif n==1:
+        return x
+    #Case: n is odd
+    elif n%2 == 1:
+        return x*exp(x**2, (n-1)/2)
+    #Case: n is even
+    else:
+        return exp(x**2, n/2) 
+
 def factorial(n):
     """
     Computes the factorial of an integer n. Not optimized with memoization.
