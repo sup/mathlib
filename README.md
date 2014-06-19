@@ -13,6 +13,8 @@ The purpose of this package is for educational purposes/ self-learning
 and does not seek to replace veteran, open-source libraries as NumPy 
 or SciPy.
 
+Clearly a work in progress!
+
 Features
 --------
 I wanted to build a complete mathematics library from scratch so there
